@@ -11,31 +11,34 @@ const token = process.env.TELEGRAM_KEY;
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true});
 
-// Matches "/echo [whatever]"
-bot.onText(/\/echo (.+)/, async (msg, match) => {
-  // 'msg' is the received Message from Telegram
-  // 'match' is the result of executing the regexp above on the text content
-  // of the message
+var history = [];
 
+
+bot.onText(/\/clear/, async (msg, match) => {
+	history = [];
+})
+
+bot.onText(/\/ask (.+)/, async (msg, match) => {
   const chatId = msg.chat.id;
-  const resp = match[1]; // the captured "whatever"
+  const resp = match[1];
+  
+  const answer = await reply(resp);
+  bot.sendMessage(chatId, answer);
+});
+
+
+const reply = async (content) => {
+  history.push(content);
+  prmpt = history.join("\n")
 
   const completion = await openai.chat.completions.create({
-    messages: [{ role: 'user', content: resp }],
+    messages: [{ role: 'user', content: prmpt }],
     model: 'gpt-3.5-turbo',
   });
   console.log(completion.choices);
+  
   const reply = completion.choices[0].message.content
+  history.push(reply)
+  return reply
+}
 
-  // send back the matched "whatever" to the chat
-  bot.sendMessage(chatId, reply);
-});
-
-// Listen for any kind of message. There are different kinds of
-// messages.
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
-
-  // send a message to the chat acknowledging receipt of their message
-  bot.sendMessage(chatId, 'Received your message');
-});
