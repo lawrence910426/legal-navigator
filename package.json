@@ -1,0 +1,23 @@
+{
+  "name": "legal-navigator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lawrence910426/legal-navigator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lawrence910426/legal-navigator/issues"
+  },
+  "homepage": "https://github.com/lawrence910426/legal-navigator#readme",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.61.0",
+    "openai": "^4.2.0"
+  }
+}
