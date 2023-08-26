@@ -16,12 +16,19 @@ const worksheet = xlsx.parse(`${__dirname}/db.xlsx`)[0].data.slice(1)
 const sentences = worksheet.map((row) => row.join("\t"))
 const MAX_TOKENS = 1000;
 
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+
 const fetch = require("node-fetch");
 
 var history = [];
 
+bot.onText(/\/donwload/, async (msg, match) => {
+  await execute_bash("rm -rf db.xlsx")
+  await execute_bash(`gdown https://drive.google.com/uc?id=${process.env.DRIVE_ID}`)
+})
 
-bot.onText(/\/clear/, async (msg, match) => {
+bot.onText(/\/reset/, async (msg, match) => {
   history = [];
 })
 
@@ -88,3 +95,14 @@ const similarity = async (question) => {
   }
   return prompts.join("\n")
 }
+
+const execute_bash = async (command) => {
+  try {
+      const { stdout, stderr } = await exec(command);
+      console.log('stdout:', stdout);
+      console.log('stderr:', stderr);
+      return stdout
+  } catch (err) {
+     console.error(err);
+  };
+};
