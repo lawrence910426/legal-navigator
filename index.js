@@ -12,8 +12,8 @@ const token = process.env.TELEGRAM_KEY;
 const bot = new TelegramBot(token, {polling: true});
 
 // Load the database
-const worksheet = xlsx.parse(`${__dirname}/db.xlsx`)[0].data.slice(1)
-const sentences = worksheet.map((row) => row.join("\t"))
+var worksheet = xlsx.parse(`${__dirname}/db.xlsx`)[0].data.slice(1)
+var sentences = worksheet.map((row) => row.join("\t"))
 const MAX_TOKENS = 1000;
 
 const util = require('util');
@@ -26,6 +26,8 @@ var history = [];
 bot.onText(/\/donwload/, async (msg, match) => {
   await execute_bash("rm -rf db.xlsx")
   await execute_bash(`gdown https://drive.google.com/uc?id=${process.env.DRIVE_ID}`)
+  worksheet = xlsx.parse(`${__dirname}/db.xlsx`)[0].data.slice(1)
+  worksheet.map((row) => row.join("\t"))
 })
 
 bot.onText(/\/reset/, async (msg, match) => {
