@@ -38,8 +38,12 @@ bot.onText(/\/ask (.+)/, async (msg, match) => {
   const chatId = msg.chat.id;
   const resp = match[1];
   
-  const answer = await reply(resp);
-  bot.sendMessage(chatId, answer);
+  try {
+    const answer = await reply(resp);
+    bot.sendMessage(chatId, answer);
+  } catch (err) {
+     console.log(err)
+  }
 });
 
 
