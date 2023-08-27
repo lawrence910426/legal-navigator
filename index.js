@@ -24,10 +24,10 @@ const fetch = require("node-fetch");
 var history = [];
 
 bot.onText(/\/donwload/, async (msg, match) => {
-  await execute_bash("rm -rf db.xlsx")
-  await execute_bash(`gdown https://drive.google.com/uc?id=${process.env.DRIVE_ID}`)
+  console.log(await execute_bash("rm -rf db.xlsx"))
+  console.log(await execute_bash(`gdown https://drive.google.com/uc?id=${process.env.DRIVE_ID}`))
   worksheet = xlsx.parse(`${__dirname}/db.xlsx`)[0].data.slice(1)
-  worksheet.map((row) => row.join("\t"))
+  sentences = worksheet.map((row) => row.join("\t"))
 })
 
 bot.onText(/\/reset/, async (msg, match) => {
