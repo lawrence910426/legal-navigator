@@ -23,7 +23,7 @@ const fetch = require("node-fetch");
 
 var history = [];
 
-bot.onText(/\/donwload/, async (msg, match) => {
+bot.onText(/\/download/, async (msg, match) => {
   console.log(await execute_bash("rm -rf db.xlsx"))
   console.log(await execute_bash(`gdown https://drive.google.com/uc?id=${process.env.DRIVE_ID}`))
   worksheet = xlsx.parse(`${__dirname}/db.xlsx`)[0].data.slice(1)
